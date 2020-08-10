@@ -16,21 +16,22 @@ from IPython import get_ipython
 #Clear variables and console
 get_ipython().magic('clear')
 get_ipython().magic('reset -f')
+%matplotlib qt
 
 #Grab necessary .csv file
-sg.theme('LightBlue2')
+# sg.theme('LightBlue2')
 
-File = sg.popup_get_file('Please select .csv file for analyzing',
-                          title = 'Select File',
-                          keep_on_top = True)
-Data = pd.read_csv(File,
+# File = sg.popup_get_file('Please select .csv file for analyzing',
+#                           title = 'Select File',
+#                           keep_on_top = True)
+# Data = pd.read_csv(File,
+#                     header = 0, 
+#                     keep_default_na = False)
+
+Data = pd.read_csv('C:/Users/julie/GitHub/Well-Being/RPE.csv',
                     header = 0, 
-                    keep_default_na = False)
-
-# Data = pd.read_csv('C:/Users/julie/GitHub/Well-Being/RPE.csv',
-#                    header = 0, 
-#                    keep_default_na = False
-#                    )
+                    keep_default_na = False
+                    )
 
 #Fill blanks with NaN's
 Data.replace(r'^\s*$', np.nan, regex = True, inplace = True)
@@ -46,7 +47,7 @@ Data['A:C Ratio'] = pd.to_numeric(Data['A:C Ratio'])
 dict_of_athletes = {k: v for k, v in Data.groupby('ID')}
 
 #Creating plots
-selectfolder = sg.popup_get_folder('Select a folder to save all plots and files', keep_on_top = True)
+# selectfolder = sg.popup_get_folder('Select a folder to save all plots and files', keep_on_top = True)
 for key, value in dict_of_athletes.items():
     fig = plt.figure(figsize = (8,5))
     y = dict_of_athletes[key]['A:C Ratio']
@@ -61,7 +62,7 @@ for key, value in dict_of_athletes.items():
     plt.title(key)
     plt.gca().spines['right'].set_color('none')
     plt.gca().spines['top'].set_color('none')
-    fig.savefig(selectfolder + "/" + key + ".png")
+    # fig.savefig(selectfolder + "/" + key + ".png")
 plt.show()
 
 
