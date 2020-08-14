@@ -13,8 +13,6 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdate
 from IPython import get_ipython
 import plotly.figure_factory as ff
-import plotly.offline as plot
-import plotly.subplots as make_subplots
 import plotly.io as pio
 
 #Clear variables and console
@@ -52,7 +50,7 @@ Data['A:C Ratio'] = pd.to_numeric(Data['A:C Ratio'])
 #Creating a dictionary of athletes
 dict_of_athletes = {k: v for k, v in Data.groupby('ID')}
 
-# #Creating plots
+#Creating plots
 for key, value in dict_of_athletes.items():
     fig = plt.figure(figsize = (8,5))
     y = dict_of_athletes[key]['A:C Ratio']
