@@ -34,26 +34,23 @@ Data = pd.read_csv(File,
 #Fill blanks with NaN's
 Data.replace(r'^\s*$', np.nan, regex = True, inplace = True)
 
-#Sort Data based on ID
-Data.sort_values('ID', inplace = True, ascending = True)
-
-#User input for column names of independent variable
+#User input of independent and dependent variables
 ind_var = sg.popup_get_text('Please type the column name of the independent variable. Options: Fatigue, Soreness, Desire to Train, Irritability, Sleep hours, and Sleep Quality',
                             title = 'Input independent variable name',
                             keep_on_top = True)
+dep_var = sg.popup_get_text('Please type the column name of the dependent variable. Options: Monitoring Z-Score',
+                            title = 'Input dependent variable name',
+                            keep_on_top = True)
 
 #Redefine df with needed columns
-Data = Data[[ind_var, 'Monitoring Z-Score']].copy()
-
-#Rename column name
-Data.rename(columns = {"Monitoring Z-Score": "Z-Score"}, inplace = True)
+Data = Data[[ind_var, dep_var]].copy()
 
 #Drop all NaNs
 Data = Data.dropna()
 
 #Define dtype for specific columns
 Data[ind_var] = Data[ind_var].astype(float)
-Data['Z-Score'] = Data['Z-Score'].astype(float)
+Data[dep_var] = Data[dep_var].astype(float)
 
 
 def estimate_coef(x,y):
@@ -88,8 +85,8 @@ def plot_regression_line(x,y,b):
     
     #Putting labels
     plt.xlabel(ind_var)
-    plt.ylabel('Z-Score')
-    plt.title(ind_var + ' ' + 'versus Z-score')
+    plt.ylabel(dep_var)
+    plt.title(ind_var + ' ' + 'versus' + ' ' + dep_var)
     
     #Removing spines
     plt.gca().spines['right'].set_color('none')
@@ -101,7 +98,7 @@ def plot_regression_line(x,y,b):
 def main():
     #Observations
     x = Data[ind_var]
-    y = Data['Z-Score']
+    y = Data[dep_var]
     
     #Estimating coefficients
     b = estimate_coef(x, y)
