@@ -37,8 +37,13 @@ Data.replace(r'^\s*$', np.nan, regex = True, inplace = True)
 #Sort Data based on ID
 Data.sort_values('ID', inplace = True, ascending = True)
 
-#Redine df with needed columns
-Data = Data[['Sleep hours', 'Monitoring Z-Score']].copy()
+#User input for column names of independent variable
+ind_var = sg.popup_get_text('Please type the column name of the independent variable. Options: Fatigue, Soreness, Desire to Train, Irritability, Sleep hours, and Sleep Quality',
+                            title = 'Input independent variable name',
+                            keep_on_top = True)
+
+#Redefine df with needed columns
+Data = Data[[ind_var, 'Monitoring Z-Score']].copy()
 
 #Rename column name
 Data.rename(columns = {"Monitoring Z-Score": "Z-Score"}, inplace = True)
@@ -47,7 +52,7 @@ Data.rename(columns = {"Monitoring Z-Score": "Z-Score"}, inplace = True)
 Data = Data.dropna()
 
 #Define dtype for specific columns
-Data['Sleep hours'] = Data['Sleep hours'].astype(float)
+Data[ind_var] = Data[ind_var].astype(float)
 Data['Z-Score'] = Data['Z-Score'].astype(float)
 
 
@@ -82,9 +87,9 @@ def plot_regression_line(x,y,b):
     plt.plot(x, y_pred, color = "r")
     
     #Putting labels
-    plt.xlabel('Hours of sleep (hrs)')
+    plt.xlabel(ind_var)
     plt.ylabel('Z-Score')
-    plt.title('Sleep hours versus Z-score')
+    plt.title(ind_var + ' ' + 'versus Z-score')
     
     #Removing spines
     plt.gca().spines['right'].set_color('none')
@@ -95,7 +100,7 @@ def plot_regression_line(x,y,b):
     
 def main():
     #Observations
-    x = Data['Sleep hours']
+    x = Data[ind_var]
     y = Data['Z-Score']
     
     #Estimating coefficients
