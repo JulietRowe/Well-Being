@@ -72,7 +72,7 @@ def estimate_coef(x,y):
     
 def plot_regression_line(x,y,b):
     #Creating a figure
-    fig = plt.figure(figsize = (8,5), dpi = 300)
+    plt.figure(figsize = (8,5), dpi = 300)
     
     #plotting the actual ploints as scatter plot
     plt.scatter(x,y, color = "b", marker = "o", s = 30)
