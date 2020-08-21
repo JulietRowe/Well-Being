@@ -71,9 +71,6 @@ def estimate_coef(x,y):
     return(intercept, slope)
     
 def plot_regression_line(x,y,b):
-    #Creating a figure
-    plt.figure(figsize = (8,5), dpi = 300)
-    
     #plotting the actual ploints as scatter plot
     plt.scatter(x,y, color = "b", marker = "o", s = 30)
     
@@ -94,18 +91,23 @@ def plot_regression_line(x,y,b):
     
     #Function to show plot
     plt.show()
+ 
+#Creating a figure
+fig = plt.figure(figsize = (8,5), dpi = 300)  
+ 
+#Plotting the regression line
+x = Data[ind_var]
+y = Data[dep_var]
     
-def main():
-    #Observations
-    x = Data[ind_var]
-    y = Data[dep_var]
-    
-    #Estimating coefficients
-    b = estimate_coef(x, y)
-    print("Estimated coefficients:\nintercept = {} \nslope = {}".format(str(b[0]), str(b[1]))) 
+#Estimating coefficients
+b = estimate_coef(x, y)
           
-    #Plotting the regression line
-    plot_regression_line(x, y, b)
-    
-if __name__ == "__main__":
-    main()
+plot_regression_line(x, y, b)
+
+sg.popup("Estimated coefficients:\nintercept = {} \nslope = {}".format(str(b[0]), str(b[1])),
+              title = 'Coefficient values', 
+              keep_on_top = True) 
+
+#Saving figure
+selectfolder = sg.popup_get_folder('Select a folder to save linear regression plot', keep_on_top = True)
+fig.savefig(selectfolder + '/Linear Regression.tiff', bbox_inches = 'tight')
