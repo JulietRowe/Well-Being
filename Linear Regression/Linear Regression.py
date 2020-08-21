@@ -101,9 +101,11 @@ y = Data[dep_var]
     
 #Estimating coefficients
 b = estimate_coef(x, y)
-          
+
+#Plotting regression          
 plot_regression_line(x, y, b)
 
+#Stating the slope and intercept
 sg.popup("Estimated coefficients:\nintercept = {} \nslope = {}".format(str(b[0]), str(b[1])),
               title = 'Coefficient values', 
               keep_on_top = True) 
